@@ -57,14 +57,14 @@ class CopytView extends GetView<CopytController> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      controller.sitepw.value,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.none,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
+                    Obx(() => Text(
+                          controller.sitepw.value,
+                          style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        )),
                     IconButton(
                       icon: Icon(Icons.copy),
                       onPressed: controller.copy,

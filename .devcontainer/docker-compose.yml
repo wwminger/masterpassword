@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  Flutter-lts:
+    image: registry.cn-shenzhen.aliyuncs.com/wwminger/go_android_sdk:2.0.2
+
+    ipc: host
+    environment:
+      SHELL: "/bin/bash"
+      DISPLAY: unix$DISPLAY
+      # GID: 1000
+      # UID: 1000
+      # GOPROXY: "https://goproxy.cn,direct"
+    command: sleep infinity
+    volumes:
+      - ../:/workdir
+      # - /tmp:/tmp
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    
