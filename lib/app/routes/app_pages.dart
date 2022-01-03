@@ -14,11 +14,11 @@ class AppPages {
   static const INITIAL = Routes.COPYT;
 
   static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => HomeView(),
-      binding: HomeBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.HOME,
+    //   page: () => HomeView(),
+    //   binding: HomeBinding(),
+    // ),
     GetPage(
       name: _Paths.COPYT,
       page: () => CopytView(),

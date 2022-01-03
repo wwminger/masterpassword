@@ -5,12 +5,12 @@ abstract class Routes {
   Routes._();
 
   // ignore: constant_identifier_names
-  static const HOME = _Paths.HOME;
+  // static const HOME = _Paths.HOME;
   static const COPYT = _Paths.COPYT;
 }
 
 abstract class _Paths {
   // ignore: constant_identifier_names
-  static const HOME = '/home';
+  // static const HOME = '/home';
   static const COPYT = '/copyt';
 }
