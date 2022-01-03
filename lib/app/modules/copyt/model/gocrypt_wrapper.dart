@@ -9,9 +9,9 @@ class Spectre {
   late NativeLibrary cs;
   Spectre() {
     String libraryPath =
-        path.join(Directory.current.path, 'lib', 'libspectre.so.1.0');
+        path.join(Directory.current.path, 'lib', 'libspectre.so');
     if (Platform.isAndroid) {
-      libraryPath = path.join('libspectre.so.1.0');
+      libraryPath = path.join('libspectre.so');
     } else if (Platform.isWindows) {
       libraryPath = path.join('gocrypt.dll');
     }
