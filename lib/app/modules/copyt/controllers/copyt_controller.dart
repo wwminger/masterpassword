@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../model/gocrypt_wrapper.dart';
 
 class CopytController extends GetxController {
+  // final popupMenuItemKey = GlobalKey<PopupMenuItemState>();
   final copytFormKey = GlobalKey<FormState>();
   final userController = TextEditingController();
   final mpasswordController = TextEditingController();
@@ -22,9 +23,13 @@ class CopytController extends GetxController {
 
   @override
   void onClose() {
+    userController.text = "";
     userController.dispose();
+    mpasswordController.text = "";
     mpasswordController.dispose();
+    spasswordController.text = "";
     spasswordController.dispose();
+    sitepw.value = "ggsmd";
   }
 
   void copy() {

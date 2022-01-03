@@ -7,8 +7,34 @@ import '../controllers/copyt_controller.dart';
 class CopytView extends GetView<CopytController> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Form(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        leading: const Icon(Icons.account_balance),
+        title: const Text("主密码"),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.clear_rounded),
+            onPressed: controller.onClose,
+          ),
+          // IconButton(
+          //   icon: const Icon(Icons.clear_outlined),
+          //   onPressed: controller.onClose,
+          // ),
+          // PopupMenuButton(
+          //   itemBuilder: (BuildContext context) {
+          //     return [
+          //       const PopupMenuItem(
+          //         // key: controller.popupMenuItemKey,
+          //         child: Text('discard'),
+          //       ),
+          //       // const PopupMenuItem(child: Text('Train'))
+          //     ];
+          //   },
+          // )
+        ],
+      ),
+      body: Form(
           key: controller.copytFormKey,
           child: Column(children: <Widget>[
             TextFormField(
