@@ -99,6 +99,16 @@ if(PLUGIN_BUNDLED_LIBRARIES)
     DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
     COMPONENT Runtime)
 endif()
+# message(${CMAKE_CURRENT_SOURCE_DIR})
+get_filename_component(SECOND_FOLDER_ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
+# get_filename_component(SECOND_FOLDER ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+# message(${SECOND_FOLDER_ABSOLUTE})
+# message(${SECOND_FOLDER})
+
+# 复制库文件
+install(CODE "file(COPY ${SECOND_FOLDER_ABSOLUTE}/lib/gocrypt/output/linux/libspectre.so DESTINATION ${INSTALL_BUNDLE_LIB_DIR})" COMPONENT Runtime)
+
+
 
 # Fully re-copy the assets directory on each build to avoid having stale files
 # from a previous install.
