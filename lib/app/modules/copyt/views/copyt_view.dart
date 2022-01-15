@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mpw/app/modules/help/views/help_view.dart';
+import 'package:mpw/app/modules/home/views/home_view.dart';
 
 import '../controllers/copyt_controller.dart';
 
@@ -14,13 +16,15 @@ class CopytView extends GetView<CopytController> {
         title: const Text("主密码"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.clear_rounded),
+            icon: const Icon(Icons.refresh),
             onPressed: controller.onClose,
           ),
-          // IconButton(
-          //   icon: const Icon(Icons.clear_outlined),
-          //   onPressed: controller.onClose,
-          // ),
+          IconButton(
+            icon: const Icon(Icons.help),
+            onPressed: () {
+              Get.to(HelpView());
+            },
+          ),
           // PopupMenuButton(
           //   itemBuilder: (BuildContext context) {
           //     return [
