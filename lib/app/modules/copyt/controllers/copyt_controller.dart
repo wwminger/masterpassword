@@ -11,9 +11,10 @@ class CopytController extends GetxController {
   final userController = TextEditingController();
   final mpasswordController = TextEditingController();
   final spasswordController = TextEditingController();
+
   RxString rxShowSitePW = "ggsmd".obs;
   RxString rxSitePW = "ggsmd".obs;
-
+  RxString rxSite = "".obs;
   final rxVisibleIcon = Icons.visibility.obs;
   RxBool rxVisible = true.obs;
   RxBool rxRecordable = true.obs;
@@ -21,6 +22,8 @@ class CopytController extends GetxController {
 
   // list store
   late RxList<String> rxSiteList;
+  late RxList<String> rxOptionSiteList;
+  late RxInt rxOptionSiteListLength;
   final String spiltFlag = "&*&*";
   // String s = "";
 
@@ -28,6 +31,14 @@ class CopytController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // TODO:read the perfs
+    rxSiteList = <String>[
+      'aardvark',
+      'bobcat',
+      'chameleon',
+    ].obs;
+    rxOptionSiteList = <String>[''].obs;
+    rxOptionSiteListLength = rxOptionSiteList.length.obs;
   }
 
   @override
@@ -66,7 +77,6 @@ class CopytController extends GetxController {
     } else {
       strlenght = rxSitePW.value.length;
       for (var i = 0; i < strlenght; i++) {
-//    right = right + (min + (Random().nextInt(max - min))).toString();
         left = left + '*';
       }
       rxShowSitePW.value = left;
@@ -94,13 +104,35 @@ class CopytController extends GetxController {
     }
   }
 
-  void savelist(String userkey) {
+  void saveList(String userkey) {
     SharedPreferencesUtil.saveData(
-        userkey, EncryptData.encryptAES(rxSiteList.value.join(spiltFlag)));
+        userkey, EncryptData.encryptAES(rxSiteList.join(spiltFlag)));
   }
 
-  void readlist(String userkey) {
+  void readList(String userkey) {
     String temp = SharedPreferencesUtil.getData(userkey) as String;
     rxSiteList.value = EncryptData.decryptAES(temp).split(spiltFlag);
+  }
+
+  void suggestlist() {
+    // TODO:两种触发：
+    // 1. 点击右侧下拉键，按照文本内容搜索，文本为空时展示全部
+    // 2. 输入文本时自动联想相关参数并显示
+  }
+  // autocomplate
+  Iterable<String> sortList(String textEditingValue) {
+    final sitelter = rxSiteList.where((String option) {
+      return option.contains(textEditingValue.toLowerCase());
+    });
+    rxOptionSiteList.clear();
+    rxOptionSiteList.addAll(sitelter);
+    rxOptionSiteListLength.value = rxOptionSiteList.length;
+    return sitelter;
+  }
+
+  void removeItem(int index) {
+    rxSiteList.removeWhere((element) => element == rxOptionSiteList[index]);
+    rxOptionSiteList.removeAt(index);
+    rxOptionSiteListLength.value = rxOptionSiteListLength.value - 1;
   }
 }
