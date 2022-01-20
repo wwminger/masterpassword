@@ -1,4 +1,4 @@
-import 'gocrypt.dart';
+import 'package:mpw/app/data/gocrypt.dart';
 import 'dart:ffi' as ffi;
 import 'dart:io' show Directory, Platform;
 

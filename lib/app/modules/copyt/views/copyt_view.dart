@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:mpw/app/modules/help/views/help_view.dart';
-import 'package:mpw/app/modules/home/views/home_view.dart';
 
 import '../controllers/copyt_controller.dart';
 
@@ -25,17 +24,37 @@ class CopytView extends GetView<CopytController> {
               Get.to(HelpView());
             },
           ),
-          // PopupMenuButton(
-          //   itemBuilder: (BuildContext context) {
-          //     return [
-          //       const PopupMenuItem(
-          //         // key: controller.popupMenuItemKey,
-          //         child: Text('discard'),
-          //       ),
-          //       // const PopupMenuItem(child: Text('Train'))
-          //     ];
-          //   },
-          // )
+          // IconButton(onPressed: onPressed, icon: const Icon(Icons.remove_red_eye_outlined)),
+          IconButton(
+              onPressed: controller.changeRecordIcon,
+              icon: Obx(() => Icon(controller.rxRecordIcon.value))),
+
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  // key: controller.popupMenuItemKey,
+                  child: Text('import form clipboard'),
+                  onTap: controller.changeText,
+                ),
+                PopupMenuItem(
+                  // key: controller.popupMenuItemKey,
+                  child: Text('save to clipboard'),
+                  onTap: controller.changeText,
+                ),
+                PopupMenuItem(
+                  // key: controller.popupMenuItemKey,
+                  child: Text('import form qrcode'),
+                  onTap: controller.changeText,
+                ),
+                PopupMenuItem(
+                  // key: controller.popupMenuItemKey,
+                  child: Text('save to qrcode'),
+                  onTap: controller.changeText,
+                ),
+              ];
+            },
+          )
         ],
       ),
       body: Form(
@@ -87,8 +106,11 @@ class CopytView extends GetView<CopytController> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    IconButton(
+                        onPressed: controller.changeVisibleIcon,
+                        icon: Obx(() => Icon(controller.rxVisibleIcon.value))),
                     Obx(() => Text(
-                          controller.sitepw.value,
+                          controller.rxShowSitePW.value,
                           style: TextStyle(
                             color: Colors.blue,
                             decoration: TextDecoration.none,

@@ -4,8 +4,6 @@ import '../modules/copyt/bindings/copyt_binding.dart';
 import '../modules/copyt/views/copyt_view.dart';
 import '../modules/help/bindings/help_binding.dart';
 import '../modules/help/views/help_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
 
 part 'app_routes.dart';
 
