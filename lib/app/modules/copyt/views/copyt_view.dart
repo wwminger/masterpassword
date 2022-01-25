@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:get/get.dart';
 import 'package:mpw/app/modules/help/views/help_view.dart';
-
+import 'package:mpw/app/data/my_autocomplete.dart';
 import '../controllers/copyt_controller.dart';
 
 class CopytView extends GetView<CopytController> {
@@ -16,7 +16,7 @@ class CopytView extends GetView<CopytController> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: controller.onClose,
+            onPressed: controller.clearAndSave,
           ),
           IconButton(
             icon: const Icon(Icons.help),
@@ -26,30 +26,31 @@ class CopytView extends GetView<CopytController> {
           ),
           // IconButton(onPressed: onPressed, icon: const Icon(Icons.remove_red_eye_outlined)),
           Obx(() => IconButton(
-              onPressed: controller.changeRecordIcon,
-              icon: Icon(controller.rxRecordIcon.value))),
+                onPressed: controller.changeRecordIcon,
+                icon: controller.rxRecordIcon.value,
+              )),
 
           PopupMenuButton(
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
                   child: Text('import form clipboard'),
-                  onTap: controller.changeText,
+                  onTap: controller.importFormClipboard,
                 ),
                 PopupMenuItem(
                   // key: controller.popupMenuItemKey,
                   child: Text('save to clipboard'),
-                  onTap: controller.changeText,
+                  onTap: controller.saveToClipboard,
                 ),
                 PopupMenuItem(
                   // key: controller.popupMenuItemKey,
                   child: Text('import form qrcode'),
-                  onTap: controller.changeText,
+                  onTap: controller.importFormQrcode,
                 ),
                 PopupMenuItem(
                   // key: controller.popupMenuItemKey,
                   child: Text('save to qrcode'),
-                  onTap: controller.changeText,
+                  onTap: controller.saveToQrcode,
                 ),
               ];
             },
@@ -77,64 +78,70 @@ class CopytView extends GetView<CopytController> {
                   prefixIcon: Icon(Icons.lock)),
               obscureText: true,
             ),
-            Autocomplete(
-              optionsBuilder: (TextEditingValue textEditingValue) {
-                if (textEditingValue.text == '') {
-                  return const Iterable<String>.empty();
-                }
-                return controller.sortList(textEditingValue.text);
-              },
-              onSelected: (String selection) {
-                Get.snackbar('Successfully', 'You just selected $selection',
-                    snackPosition: SnackPosition.BOTTOM);
-                debugPrint('You just selected $selection');
-              },
-              fieldViewBuilder: (context, textEditingController, focusNode,
-                  onFieldSubmitted) {
-                return TextFormField(
-                  controller: textEditingController,
-                  decoration: InputDecoration(
-                      labelText: "Site",
-                      hintText: "站点主网址",
-                      prefixIcon: Icon(Icons.web)),
-                  focusNode: focusNode,
-                  onFieldSubmitted: (String value) {
-                    onFieldSubmitted();
-                  },
-                  // validator: (String? value) {
-                  //   if (!controller.rxSiteList.contains(value)) {
-                  //     return 'Nothing selected.';
-                  //   }
-                  //   return null;
-                  // },
-                );
-              },
-              optionsViewBuilder: (BuildContext context,
-                  AutocompleteOnSelected<String> onSelected,
-                  Iterable<String> options) {
-                return Align(
-                  alignment: Alignment.topLeft,
-                  child: Material(
-                    elevation: 4.0,
-                    child: SizedBox(
-                      height: 200.0,
-                      child: Obx(() => ListView.builder(
-                            padding: const EdgeInsets.all(8.0),
-                            itemCount: controller.rxOptionSiteList.length,
-                            itemBuilder: (context, index) {
-                              return _item(
-                                  context,
-                                  index,
-                                  controller.rxOptionSiteList,
-                                  onSelected,
-                                  controller.removeItem);
-                            },
-                          )),
-                    ),
-                  ),
-                );
-              },
-            ),
+            MyAutocomplete(
+                focusNode: controller.focusNode,
+                textEditingController: controller.spasswordController,
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  return controller.sortList(textEditingValue.text);
+                },
+                onSelected: (String selection) {
+                  Get.snackbar('Successfully', 'You just selected $selection',
+                      snackPosition: SnackPosition.BOTTOM);
+                  debugPrint('You just selected $selection');
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode,
+                    onFieldSubmitted) {
+                  return TextFormField(
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                        labelText: "Site",
+                        hintText: "站点主网址",
+                        prefixIcon: Icon(Icons.web)),
+                    focusNode: focusNode,
+                    onFieldSubmitted: (String value) {
+                      onFieldSubmitted();
+                    },
+                    // validator: (String? value) {
+                    //   if (!controller.rxSiteList.contains(value)) {
+                    //     return 'Nothing selected.';
+                    //   }
+                    //   return null;
+                    // },
+                  );
+                },
+                optionsViewBuilder: (BuildContext context,
+                    AutocompleteOnSelected<String> onSelected,
+                    Iterable<String> options) {
+                  return Align(
+                      alignment: Alignment.topLeft,
+                      child: Material(
+                        elevation: 4.0,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: 200,
+                          ),
+                          child: Container(
+                            color: Colors.white,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.all(8.0),
+                              itemCount: controller.optionSiteList.length,
+                              itemBuilder: (context, index) {
+                                return _item(
+                                    context,
+                                    index,
+                                    controller.optionSiteList,
+                                    onSelected,
+                                    controller.removeItem);
+                              },
+                            ),
+                          ),
+                        ),
+                      ));
+                }),
             Padding(
               padding: const EdgeInsets.only(top: 28.0),
               child: Row(
@@ -145,7 +152,7 @@ class CopytView extends GetView<CopytController> {
                       padding: EdgeInsets.all(16.0),
                       child: Text("GEN"),
                     ),
-                    onPressed: controller.changeText,
+                    onPressed: controller.genPassword,
                   )),
                 ],
               ),
@@ -157,7 +164,7 @@ class CopytView extends GetView<CopytController> {
                       children: <Widget>[
                         IconButton(
                             onPressed: controller.changeVisibleIcon,
-                            icon: Icon(controller.rxVisibleIcon.value)),
+                            icon: controller.rxVisibleIcon.value),
                         Text(
                           controller.rxShowSitePW.value,
                           style: TextStyle(
@@ -193,6 +200,7 @@ class CopytView extends GetView<CopytController> {
       trailingActions: [
         SwipeAction(
             title: "delete",
+            widthSpace: 110,
             performsFirstActionWithFullSwipe: true,
             nestedAction: SwipeNestedAction(title: "confirm"),
             onTap: (handler) async {
